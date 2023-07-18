@@ -20,7 +20,8 @@ from rest_framework import routers
 
 import student
 from quickstart import views
-from student.api import StudentList, ClassList
+from student.api import StudentList, ClassList, StudentDetail
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -31,5 +32,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path("api-auth/", include('rest_framework.urls', namespace="rest_framework")),
     path("api/student_list/", StudentList.as_view(), name='student_list'),
-    path("api/class_list/", ClassList.as_view(), name='class_list')
+    path("api/student_list/<int:student_id>/", StudentDetail.as_view(), name='student_detail'),
+    path("api/class_list/", ClassList.as_view(), name='class_list'),
+    path("api/auth/", obtain_auth_token, name="obtain_auth_token")
 ]
